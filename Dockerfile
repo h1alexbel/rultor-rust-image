@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 LABEL Description="Lightweight image with Rust for Rultor.com" Version="0.0.0"
 WORKDIR /tmp
 
