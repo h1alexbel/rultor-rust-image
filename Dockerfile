@@ -85,10 +85,7 @@ RUN apt-get -y install ssh \
   && chmod 0755 /var/run/sshd
 
 # OpenSSL
-RUN apt-get update && apt-get install -y \
-    libssl-dev \
-    pkg-config
-ENV PKG_CONFIG_PATH="/usr/lib/x86_64-linux-gnu/pkgconfig"
+RUN apt-get -y install libssl-dev
 
 # Java
 ENV MAVEN_OPTS "-Xmx1g"
