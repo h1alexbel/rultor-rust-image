@@ -12,6 +12,7 @@ release:
     repo=h1alexbel/rultor-rust-image
     sed -i -e "s/^0.0.0/${tag}/" Dockerfile
     sudo docker build "$(pwd)" --tag "${repo}:${tag}"
+    sudo docker tag "${repo}:${tag}" "${repo}:latest"
     cat ../docker-password | sudo docker login --password-stdin --username h1alexbel
     sudo docker push "${repo}:${tag}"
     sudo docker push "${repo}:latest"
