@@ -84,6 +84,9 @@ RUN apt-get -y install ssh \
   && mkdir /var/run/sshd \
   && chmod 0755 /var/run/sshd
 
+# OpenSSL
+RUN apt-get -y install libssl-dev
+
 # Java
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
