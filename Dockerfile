@@ -91,7 +91,7 @@ RUN apt-get -y install libssl-dev
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
 ENV JAVA_HOME "/usr/lib/jvm/java-17"
-RUN apt-get -y install ca-certificates openjdk-11-jdk openjdk-17-jdk \
+RUN apt-get -y install ca-certificates openjdk-11-jdk openjdk-17-jdk --no-install-recommends \
   # hadolint ignore=SC2010
   && update-java-alternatives --set $(ls /usr/lib/jvm | grep java-1.11) \
   && ln -s "/usr/lib/jvm/$(ls /usr/lib/jvm | grep java-1.11)" /usr/lib/jvm/java-11 \
@@ -102,7 +102,7 @@ RUN apt-get -y install ca-certificates openjdk-11-jdk openjdk-17-jdk \
 # Maven
 ENV MAVEN_VERSION 3.9.6
 ENV M2_HOME "/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}"
-RUN echo 'export M2_HOME=/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}' >> /root/.profile \
+RUN echo 'export M2_HOME=/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}' >> "/root/.profile" \
   && wget --quiet "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
   && mkdir -p /usr/local/apache-maven \
   && mv "apache-maven-${MAVEN_VERSION}-bin.tar.gz" /usr/local/apache-maven \
