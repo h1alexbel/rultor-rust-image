@@ -30,9 +30,9 @@ RUN mkdir ~/.gnupg \
   && printf "disable-ipv6" >> ~/.gnupg/dirmngr.conf
 
 # UTF-8 locale
-RUN apt-get clean --no-install-recommends \
+RUN apt-get clean \
   && apt-get update -y --fix-missing \
-  && apt-get -y install locales \
+  && apt-get -y install locales --no-install-recommends \
   && locale-gen en_US.UTF-8 \
   && dpkg-reconfigure locales \
   && printf "LC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" > /etc/default/locale \
@@ -100,7 +100,7 @@ RUN apt-get -y install ca-certificates openjdk-11-jdk openjdk-17-jdk --no-instal
 # Maven
 ENV MAVEN_VERSION 3.9.6
 ENV M2_HOME "/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}"
-RUN echo 'export M2_HOME=/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}' >> "/root/.profile" \
+RUN echo "export M2_HOME=/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}" >> /root/.profile \
   && wget --quiet "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
   && mkdir -p /usr/local/apache-maven \
   && mv "apache-maven-${MAVEN_VERSION}-bin.tar.gz" /usr/local/apache-maven \
@@ -115,7 +115,7 @@ COPY settings.xml /root/.m2/settings.xml
 RUN rm -rf /usr/lib/node_modules \
   && curl -sL https://deb.nodesource.com/setup_18.x -o /tmp/nodesource_setup.sh \
   && bash /tmp/nodesource_setup.sh \
-  && apt-get -y install nodejs \
+  && apt-get -y install nodejs --no-install-recommends \
   && bash -c 'node --version' \
   && bash -c 'npm --version'
 
