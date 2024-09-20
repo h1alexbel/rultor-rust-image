@@ -30,8 +30,7 @@ RUN mkdir ~/.gnupg \
   && printf "disable-ipv6" >> ~/.gnupg/dirmngr.conf
 
 # UTF-8 locale
-RUN apt-get clean \
-  # hadolint ignore=DL3009
+RUN apt-get clean --no-install-recommends \
   && apt-get update -y --fix-missing \
   && apt-get -y install locales \
   && locale-gen en_US.UTF-8 \
@@ -80,19 +79,18 @@ RUN add-apt-repository ppa:git-core/ppa \
   && bash -c 'git --version'
 
 # SSH Daemon
-RUN apt-get -y install ssh \
+RUN apt-get -y install ssh --no-install-recommends \
   && mkdir /var/run/sshd \
   && chmod 0755 /var/run/sshd
 
 # OpenSSL
-RUN apt-get -y install libssl-dev
+RUN apt-get -y install libssl-dev --no-install-recommends
 
 # Java
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
 ENV JAVA_HOME "/usr/lib/jvm/java-17"
 RUN apt-get -y install ca-certificates openjdk-11-jdk openjdk-17-jdk --no-install-recommends \
-  # hadolint ignore=SC2010
   && update-java-alternatives --set $(ls /usr/lib/jvm | grep java-1.11) \
   && ln -s "/usr/lib/jvm/$(ls /usr/lib/jvm | grep java-1.11)" /usr/lib/jvm/java-11 \
   && ln -s "/usr/lib/jvm/$(ls /usr/lib/jvm | grep java-1.17)" /usr/lib/jvm/java-17 \
@@ -123,6 +121,7 @@ RUN rm -rf /usr/lib/node_modules \
 
 # Rust, Cargo, Just.
 ENV PATH="${PATH}:${HOME}/.cargo/bin"
+# hadolint ignore=SC2086
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y \
   && echo 'export PATH=${PATH}:${HOME}/.cargo/bin' >> /root/.profile \
   && ${HOME}/.cargo/bin/rustup toolchain install stable \
