@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 FROM ubuntu:22.04
-LABEL Description="Lightweight image with Rust for Rultor.com" Version="0.0.0"
 WORKDIR /tmp
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -32,14 +31,15 @@ RUN mkdir ~/.gnupg \
 
 # UTF-8 locale
 RUN apt-get clean \
+  # hadolint ignore=DL3009
   && apt-get update -y --fix-missing \
   && apt-get -y install locales \
   && locale-gen en_US.UTF-8 \
   && dpkg-reconfigure locales \
-  && echo "LC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" > /etc/default/locale \
-  && echo 'export LC_ALL=en_US.UTF-8' >> /root/.profile \
-  && echo 'export LANG=en_US.UTF-8' >> /root/.profile \
-  && echo 'export LANGUAGE=en_US.UTF-8' >> /root/.profile
+  && printf "LC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" > /etc/default/locale \
+  && printf 'export LC_ALL=en_US.UTF-8' >> /root/.profile \
+  && printf 'export LANG=en_US.UTF-8' >> /root/.profile \
+  && printf 'export LANGUAGE=en_US.UTF-8' >> /root/.profile
 
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -92,6 +92,7 @@ ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
 ENV JAVA_HOME "/usr/lib/jvm/java-17"
 RUN apt-get -y install ca-certificates openjdk-11-jdk openjdk-17-jdk \
+  # hadolint ignore=SC2010
   && update-java-alternatives --set $(ls /usr/lib/jvm | grep java-1.11) \
   && ln -s "/usr/lib/jvm/$(ls /usr/lib/jvm | grep java-1.11)" /usr/lib/jvm/java-11 \
   && ln -s "/usr/lib/jvm/$(ls /usr/lib/jvm | grep java-1.17)" /usr/lib/jvm/java-17 \
