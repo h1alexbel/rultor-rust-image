@@ -20,6 +20,6 @@ This image has Ubuntu 22.04 and the following packages, in their latest versions
 * Java
 * Maven
 * NodeJS
-* Rust and Cargo
+* Rust, Cargo, Just
 
 Feel free to add yours by submitting a pull request.
