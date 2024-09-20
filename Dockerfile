@@ -120,12 +120,13 @@ RUN rm -rf /usr/lib/node_modules \
   && bash -c 'node --version' \
   && bash -c 'npm --version'
 
-# Rust and Cargo.
+# Rust, Cargo, Just.
 ENV PATH="${PATH}:${HOME}/.cargo/bin"
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y \
   && echo 'export PATH=${PATH}:${HOME}/.cargo/bin' >> /root/.profile \
   && ${HOME}/.cargo/bin/rustup toolchain install stable \
-  && bash -c '"${HOME}/.cargo/bin/cargo" --version'
+  && bash -c '"${HOME}/.cargo/bin/cargo" --version' \
+  && bash -c '"${HOME}/.cargo/bin/cargo" install just'
 
 # Clean up
 RUN rm -rf /tmp/* \
