@@ -10,6 +10,6 @@ jobs:
   docker:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: docker build . -t home
       - run: docker run --rm home echo Hello
